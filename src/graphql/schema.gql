@@ -1,0 +1,7 @@
+type TestResponse {
+    greeting: String!
+}
+
+type Query {
+    test(name: String!): TestResponse!
+}
