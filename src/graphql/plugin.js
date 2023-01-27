@@ -4,8 +4,6 @@ const camelcase = require('camelcase');
 const { graphqlHTTP } = require('express-graphql');
 const { buildSchema } = require('graphql');
 
-const logRequest = require('./helpers/log-request');
-
 const schemaText = fs.readFileSync(require.resolve('./schema.gql'), 'utf-8');
 const resolvers = requireAll({
     dirname: `${__dirname}/resolvers`,
