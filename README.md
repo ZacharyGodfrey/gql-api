@@ -17,3 +17,4 @@ An example app using a GraphQL API
 
 - Add a database to allow for persistent data
 - Add mutations to the schema for updating data
+- Standardize responses and account for failed queries
