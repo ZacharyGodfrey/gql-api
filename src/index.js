@@ -1,10 +1,10 @@
 const gqlPlugin = require('./graphql/plugin');
 const server = require('./server');
 
-const { PORT: port = 8080 } = process.env;
+const port = process.env.PORT || 8080;
 const context = {
     db: {
-        name: 'fake-db-name'
+        name: process.env.DB_NAME || 'db_name'
     }
 };
 
