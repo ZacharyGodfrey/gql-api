@@ -13,7 +13,7 @@ An example app using a GraphQL API
 
 ---
 
-## TO-Do List
+## To-Do List
 
 - Add a database to allow for persistent data
 - Add mutations to the schema for updating data
