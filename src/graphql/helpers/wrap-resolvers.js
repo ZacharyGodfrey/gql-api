@@ -1,10 +1,10 @@
 const logRequest = require('./log-request');
 
-module.exports = (serverContext, rawResolvers) => {
-  const methods = {};
+module.exports = (serverContext, resolvers) => {
+  const wrapped = {};
 
-  Object.entries(rawResolvers).forEach(([ name, resolver ]) => {
-      methods[name] = async (args) => {
+  Object.entries(resolvers).forEach(([ name, resolver ]) => {
+      wrapped[name] = async (args) => {
           let result = null;
           let error = null;
           const requestContext = {
@@ -30,5 +30,5 @@ module.exports = (serverContext, rawResolvers) => {
       };
   });
 
-  return methods;
+  return wrapped;
 };
