@@ -4,7 +4,7 @@ const camelcase = require('camelcase');
 const { graphqlHTTP } = require('express-graphql');
 const { buildSchema } = require('graphql');
 
-const wrapResolvers = require('./helpers/wrap-resolvers');
+const wrapResolver = require('../helpers/wrap-resolver');
 
 module.exports = (serverContext, { enableUI }) => {
     const schemaText = fs.readFileSync(require.resolve('./schema.gql'), 'utf-8');
@@ -13,9 +13,15 @@ module.exports = (serverContext, { enableUI }) => {
         map: (name) => camelcase(name)
     });
 
+    const wrappedResolvers = {};
+
+    Object.entries(resolvers).forEach(([ name, resolver ]) => {
+        wrappedResolvers[name] = wrapResolver(serverContext, name, resolver);
+    });
+
     return graphqlHTTP({
         schema: buildSchema(schemaText),
-        rootValue: wrapResolvers(serverContext, resolvers),
+        rootValue: wrappedResolvers,
         graphiql: enableUI === true
     });
 };
