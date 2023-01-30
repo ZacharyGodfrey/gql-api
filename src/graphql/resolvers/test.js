@@ -1,4 +1,6 @@
-module.exports = async (_, { name }) => {
+module.exports = async (requestContext, args) => {
+    const { name } = args;
+
     if (name === 'fail') {
         throw new Error('Intentional error.');
     }

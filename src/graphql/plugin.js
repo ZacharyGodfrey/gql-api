@@ -4,12 +4,6 @@ const camelcase = require('camelcase');
 const { graphqlHTTP } = require('express-graphql');
 const { buildSchema } = require('graphql');
 
-const schemaText = fs.readFileSync(require.resolve('./schema.gql'), 'utf-8');
-const resolvers = requireAll({
-    dirname: `${__dirname}/resolvers`,
-    map: (name) => camelcase(name)
-});
-
 const logRequest = (resolverName, requestContext, args, error, result) => {
     const { message, stack } = error || {};
     const displayError = !error ? null : { message, stack: stack.split('\n').slice(1) };
@@ -60,8 +54,16 @@ const wrapResolvers = (serverContext, rawResolvers) => {
     return methods;
 };
 
-module.exports = (context, { enableUI }) => graphqlHTTP({
-    schema: buildSchema(schemaText),
-    rootValue: wrapResolvers(context, resolvers),
-    graphiql: enableUI === true
-});
+module.exports = (serverContext, { enableUI }) => {
+    const schemaText = fs.readFileSync(require.resolve('./schema.gql'), 'utf-8');
+    const resolvers = requireAll({
+        dirname: `${__dirname}/resolvers`,
+        map: (name) => camelcase(name)
+    });
+
+    return graphqlHTTP({
+        schema: buildSchema(schemaText),
+        rootValue: wrapResolvers(serverContext, resolvers),
+        graphiql: enableUI === true
+    });
+};
