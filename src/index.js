@@ -4,6 +4,7 @@ const server = require('./server');
 const port = process.env.PORT || 8080;
 const isProduction = process.env.NODE_ENV === 'production';
 const context = {
+	greeting: 'Hello',
 	db: {
 		name: process.env.DB_NAME || 'db_name'
 	}
