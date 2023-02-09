@@ -1,23 +1,20 @@
 const fs = require('fs');
-const requireAll = require('require-all');
+const requireDir = require('require-dir');
 const camelcase = require('camelcase');
 const { graphqlHTTP } = require('express-graphql');
 const { buildSchema } = require('graphql');
 
 const wrapResolver = require('../helpers/wrap-resolver');
 
+const schemaPath = require.resolve('./schema.gql');
+const schemaText = fs.readFileSync(schemaPath, 'utf-8');
+const resolvers = requireDir('./resolvers', { camelcase: true });
+
 module.exports = (serverContext, { enableUI }) => {
-	const schemaText = fs.readFileSync(require.resolve('./schema.gql'), 'utf-8');
-	const resolvers = requireAll({
-		dirname: `${__dirname}/resolvers`,
-		map: (name) => camelcase(name)
-	});
-
-	const wrappedResolvers = {};
-
-	Object.entries(resolvers).forEach(([ name, resolver ]) => {
-		wrappedResolvers[name] = wrapResolver(serverContext, name, resolver);
-	});
+	const wrappedResolvers = Object.entries(resolvers).reduce((wrapped, [ name, resolver ]) => ({
+		...wrapped,
+		[name]: wrapResolver(serverContext, name, resolver)
+	}), {});
 
 	return graphqlHTTP({
 		schema: buildSchema(schemaText),
