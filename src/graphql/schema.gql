@@ -1,7 +1,15 @@
-type TestResponse {
-    greeting: String!
+type GreetingResponse {
+	greeting: String!
+}
+
+type UpdateGreetingResponse {
+	greeting: String!
 }
 
 type Query {
-    test(name: String!): TestResponse!
+	greeting(name: String!): GreetingResponse!
+}
+
+type Mutation {
+	updateGreeting(greeting: String!): UpdateGreetingResponse!
 }
