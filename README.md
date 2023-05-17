@@ -17,6 +17,7 @@ An example app using a GraphQL API
 
 - Add a database to allow for persistent data
 - Add caching to endpoints and potentially to any shared methods
+- Add a logging resource instead of logging to the console
 - Standardize responses and account for failed queries
 
 ---
