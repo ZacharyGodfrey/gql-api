@@ -16,7 +16,7 @@ An example app using a GraphQL API
 ## To-Do List
 
 - Add a database to allow for persistent data
-- Add mutations to the schema for updating data
+- Add caching to endpoints and potentially to any shared methods
 - Standardize responses and account for failed queries
 
 ---
